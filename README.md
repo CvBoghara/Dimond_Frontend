@@ -9,11 +9,13 @@
 ## Features
 
 * Dashboard
+* Employee List
 * Work Entry Management
 * Salary Report
-* Employee List
 * Pagination
 * Authentication (Demo Login)
+* API Integration with NestJS Backend
+* Swagger & Postman Tested APIs
 
 ## Setup
 
@@ -24,7 +26,7 @@ npm run dev
 
 ## Authentication
 
-The application includes a simple login mechanism for accessing the All module.
+The application includes a simple login mechanism for accessing all modules.
 
 ### Default Credentials
 
@@ -32,6 +34,13 @@ The application includes a simple login mechanism for accessing the All module.
 Username: admin
 Password: admin123
 ```
+
+## API Testing
+
+The frontend is integrated with backend APIs that have been tested using:
+
+* Swagger UI
+* Postman
 
 ## Backend Repository
 
