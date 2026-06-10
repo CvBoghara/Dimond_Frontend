@@ -11,6 +11,7 @@ interface Employee {
 
 function EmployeeList() {
   const [employees, setEmployees] = useState<Employee[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [loading, setLoading] = useState(true);
@@ -27,10 +28,24 @@ function EmployeeList() {
       });
   }, []);
 
+  const filteredEmployees = employees.filter((emp) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      emp.name.toLowerCase().includes(query) ||
+      emp.employeeId.toLowerCase().includes(query) ||
+      emp.department.toLowerCase().includes(query)
+    );
+  });
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = employees.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(employees.length / itemsPerPage);
+  const currentItems = filteredEmployees.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredEmployees.length / itemsPerPage);
+
+  // Reset to first page when search query changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   return (
     <div className="container">
@@ -40,32 +55,34 @@ function EmployeeList() {
         <p>Loading...</p>
       ) : (
         <>
+          <div style={{ marginBottom: "20px" }}>
+            <input
+              type="text"
+              placeholder="Search by ID, Name or Department..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px",
+                borderRadius: "4px",
+                border: "1px solid #ccc",
+                fontSize: "16px"
+              }}
+            />
+          </div>
+
           <table className="data-table" style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
             <thead>
-              <tr
-                style={{
-                  backgroundColor: "#f4f4f4",
-                  textAlign: "center",
-                  color: "#000",
-                }}
-              >
-                <th style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>
-                  Employee ID
-                </th>
-                <th style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>
-                  Name
-                </th>
-                <th style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>
-                  Department
-                </th>
-                <th style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>
-                  Joining Date
-                </th>
+              <tr style={{ backgroundColor: "#f4f4f4", textAlign: "center",color: "#333" }}>
+                <th style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>Employee ID</th>
+                <th style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>Name</th>
+                <th style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>Department</th>
+                <th style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>Joining Date</th>
               </tr>
             </thead>
             <tbody>
               {currentItems.map((emp) => (
-                <tr key={emp._id || emp.employeeId} style={{ borderBottom: "1px solid #ddd" }}>
+                <tr key={emp._id || emp.employeeId} style={{ borderBottom: "1px solid #ddd", textAlign: "center" }}>
                   <td style={{ padding: "12px" }}>{emp.employeeId}</td>
                   <td style={{ padding: "12px" }}>{emp.name}</td>
                   <td style={{ padding: "12px" }}>{emp.department}</td>
@@ -74,7 +91,7 @@ function EmployeeList() {
               ))}
               {currentItems.length === 0 && (
                 <tr>
-                  <td colSpan={4} style={{ padding: "12px", textAlign: "center" }}>No employees found in the database.</td>
+                  <td colSpan={4} style={{ padding: "12px", textAlign: "center" }}>No employees found.</td>
                 </tr>
               )}
             </tbody>
@@ -82,14 +99,14 @@ function EmployeeList() {
 
           {totalPages > 1 && (
             <div className="pagination" style={{ marginTop: "20px", display: "flex", gap: "10px", justifyContent: "center" }}>
-              <button
-                disabled={currentPage === 1}
+              <button 
+                disabled={currentPage === 1} 
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 style={{ padding: "8px 12px", cursor: currentPage === 1 ? "not-allowed" : "pointer" }}
               >
                 Prev
               </button>
-
+              
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
                   key={page}
@@ -107,8 +124,8 @@ function EmployeeList() {
                 </button>
               ))}
 
-              <button
-                disabled={currentPage === totalPages}
+              <button 
+                disabled={currentPage === totalPages} 
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 style={{ padding: "8px 12px", cursor: currentPage === totalPages ? "not-allowed" : "pointer" }}
               >
