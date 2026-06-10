@@ -6,14 +6,24 @@ import WorkEntry from "./pages/WorkEntry";
 import SalaryReport from "./pages/SalaryReport";
 import Navbar from "./components/Navbar";
 import EmployeeList from "./pages/EmployeeList";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
-    <Navbar />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/work-entry" element={<WorkEntry />} />
+        <Route path="/login" element={<Login />} />
+        <Route 
+          path="/work-entry" 
+          element={
+            <ProtectedRoute>
+              <WorkEntry />
+            </ProtectedRoute>
+          } 
+        />
         <Route path="/salary" element={<SalaryReport />} />
         <Route path="/employee-list" element={<EmployeeList />} />
       </Routes>
