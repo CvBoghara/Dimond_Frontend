@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
+import Pagination from "../components/Pagination";
 
-interface Employee {
+// Use an extended type here if needed, or update the main type
+interface EmployeeLocal {
   _id: string;
   employeeId: string;
   name: string;
@@ -10,7 +12,7 @@ interface Employee {
 }
 
 function EmployeeList() {
-  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [employees, setEmployees] = useState<EmployeeLocal[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -97,42 +99,11 @@ function EmployeeList() {
             </tbody>
           </table>
 
-          {totalPages > 1 && (
-            <div className="pagination" style={{ marginTop: "20px", display: "flex", gap: "10px", justifyContent: "center" }}>
-              <button 
-                disabled={currentPage === 1} 
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                style={{ padding: "8px 12px", cursor: currentPage === 1 ? "not-allowed" : "pointer" }}
-              >
-                Prev
-              </button>
-              
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  style={{
-                    padding: "8px 12px",
-                    cursor: "pointer",
-                    backgroundColor: currentPage === page ? "#007bff" : "#fff",
-                    color: currentPage === page ? "#fff" : "#000",
-                    border: "1px solid #ccc",
-                    borderRadius: "4px"
-                  }}
-                >
-                  {page}
-                </button>
-              ))}
-
-              <button 
-                disabled={currentPage === totalPages} 
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                style={{ padding: "8px 12px", cursor: currentPage === totalPages ? "not-allowed" : "pointer" }}
-              >
-                Next
-              </button>
-            </div>
-          )}
+          <Pagination 
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            onPageChange={setCurrentPage} 
+          />
         </>
       )}
     </div>

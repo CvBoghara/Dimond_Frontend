@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
+import EmployeeSelect from "../components/EmployeeSelect";
+import { InputField, SelectField } from "../components/FormFields";
 
 function WorkEntry() {
-  const [employees, setEmployees] = useState<any[]>([]);
   const [diamonds, setDiamonds] = useState<any[]>([]);
 
   const [employeeId, setEmployeeId] = useState("");
@@ -12,11 +13,6 @@ function WorkEntry() {
   const [ratePerPiece, setRatePerPiece] = useState("");
 
   useEffect(() => {
-    api
-      .get("/employees")
-      .then((res) => setEmployees(res.data))
-      .catch((err) => console.log(err));
-
     api
       .get("/diamonds")
       .then((res) => setDiamonds(res.data))
@@ -53,92 +49,47 @@ function WorkEntry() {
     <div className="container">
       <h1>Work Entry</h1>
 
-      <div className="salary-card">
+      <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md mt-6">
         <form onSubmit={handleSubmit}>
-          <div>
-            <label>Employee</label>
-            <br />
-            <select
-              value={employeeId}
-              onChange={(e) => setEmployeeId(e.target.value)}
-              required
-            >
-              <option value="">Select Employee</option>
+          <EmployeeSelect value={employeeId} onChange={setEmployeeId} />
 
-              {employees.map((emp) => (
-                <option key={emp._id} value={emp._id}>
-                  {emp.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <SelectField 
+            label="Diamond" 
+            value={diamondId} 
+            onChange={(e) => setDiamondId(e.target.value)} 
+            required 
+            options={diamonds.map(d => ({ label: d.diamondCode, value: d._id }))} 
+          />
 
-          <br />
+          <SelectField 
+            label="Work Type" 
+            value={workType} 
+            onChange={(e) => setWorkType(e.target.value)} 
+            required 
+            options={[
+              { label: "Cutting", value: "Cutting" },
+              { label: "Polishing", value: "Polishing" },
+              { label: "Grading", value: "Grading" }
+            ]} 
+          />
 
-          <div>
-            <label>Diamond</label>
-            <br />
-            <select
-              value={diamondId}
-              onChange={(e) => setDiamondId(e.target.value)}
-              required
-            >
-              <option value="">Select Diamond</option>
+          <InputField 
+            label="Quantity" 
+            type="number" 
+            value={quantity} 
+            onChange={(e) => setQuantity(e.target.value)} 
+            required 
+          />
 
-              {diamonds.map((diamond) => (
-                <option key={diamond._id} value={diamond._id}>
-                  {diamond.diamondCode}
-                </option>
-              ))}
-            </select>
-          </div>
+          <InputField 
+            label="Rate Per Piece" 
+            type="number" 
+            value={ratePerPiece} 
+            onChange={(e) => setRatePerPiece(e.target.value)} 
+            required 
+          />
 
-          <br />
-
-          <div>
-            <label>Work Type</label>
-            <br />
-            <select
-              value={workType}
-              onChange={(e) => setWorkType(e.target.value)}
-              required
-            >
-              <option value="">Select Work Type</option>
-              <option value="Cutting">Cutting</option>
-              <option value="Polishing">Polishing</option>
-              <option value="Grading">Grading</option>
-            </select>
-          </div>
-
-          <br />
-
-          <div>
-            <label>Quantity</label>
-            <br />
-            <input
-              type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              required
-            />
-          </div>
-
-          <br />
-
-          <div>
-            <label>Rate Per Piece</label>
-            <br />
-            <input
-              type="number"
-              value={ratePerPiece}
-              onChange={(e) => setRatePerPiece(e.target.value)}
-              required
-            />
-          </div>
-
-          <br />
-
-          <button type="submit">
+          <button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors mt-4">
             Save Work Entry
           </button>
         </form>

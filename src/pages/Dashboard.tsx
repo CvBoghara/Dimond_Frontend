@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { api } from "../services/api";
+import StatCard from "../components/StatCard";
+import type { DashboardStats } from "../types";
 
 function Dashboard() {
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
 
   useEffect(() => {
     api.get("/dashboard/stats")
@@ -16,34 +17,11 @@ function Dashboard() {
       <h1>Dashboard</h1>
 
       {stats && (
-        <div className="card-grid">
-          <Link to="/employee-list" className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div className="card">
-              <h2>{stats.totalEmployees}</h2>
-              <p>Employees</p>
-            </div>
-          </Link>
-
-          <Link to="/employee-list" className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div className="card">
-              <h2>{stats.totalDiamonds}</h2>
-              <p>Diamonds</p>
-            </div>
-          </Link>
-
-          <Link to="/employee-list" className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div className="card">
-              <h2>{stats.totalWorkEntries}</h2>
-              <p>Work Entries</p>
-            </div>
-          </Link>
-
-          <Link to="/employee-list" className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div className="card">
-              <h2>₹{stats.totalSalary}</h2>
-              <p>Total Salary</p>
-            </div>
-          </Link>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+          <StatCard title="Employees" value={stats.totalEmployees} linkTo="/employee-list" linkText="View Employees" />
+          <StatCard title="Diamonds" value={stats.totalDiamonds} linkTo="/employee-list" linkText="View Diamonds" />
+          <StatCard title="Work Entries" value={stats.totalWorkEntries} linkTo="/work-entry" linkText="Add Entry" />
+          <StatCard title="Total Salary" value={`₹${stats.totalSalary}`} linkTo="/salary" linkText="View Report" />
         </div>
       )}
     </div>

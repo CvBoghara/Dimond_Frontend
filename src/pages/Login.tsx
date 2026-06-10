@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -7,48 +8,47 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const { login } = useAuth();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (username === "admin" && password === "admin123") {
-      localStorage.setItem("token", "mock-jwt-token");
+      login("mock-jwt-token");
       const from = location.state?.from?.pathname || "/";
-      // To force navbar to update, we can reload or just navigate
       navigate(from, { replace: true });
-      window.location.reload(); // Simple way to ensure token state is updated everywhere
     } else {
       setError("Invalid username or password");
     }
   };
 
   return (
-    <div className="container" style={{ maxWidth: "400px", marginTop: "100px",alignSelf: "center"}}>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "15px", marginTop: "20px" }}>
-        {error && <div style={{ color: "red", textAlign: "center" }}>{error}</div>}
+    <div className="max-w-md mx-auto mt-24 p-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Login</h1>
+      <form onSubmit={handleLogin} className="flex flex-col gap-4">
+        {error && <div className="text-red-500 text-center">{error}</div>}
         <div>
-          <label style={{ display: "block", marginBottom: "5px" }}>Username</label>
+          <label className="block mb-1 text-sm font-medium text-gray-700">Username</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid #ccc", boxSizing: "border-box" }}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
         <div>
-          <label style={{ display: "block", marginBottom: "5px" }}>Password</label>
+          <label className="block mb-1 text-sm font-medium text-gray-700">Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid #ccc", boxSizing: "border-box" }}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
         <button
           type="submit"
-          style={{ padding: "10px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "16px", marginTop: "10px" }}
+          className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
         >
           Login
         </button>
