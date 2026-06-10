@@ -1,0 +1,21 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Dashboard from "./pages/Dashboard";
+import WorkEntry from "./pages/WorkEntry";
+import SalaryReport from "./pages/SalaryReport";
+import Navbar from "./components/Navbar";
+
+function App() {
+  return (
+    <BrowserRouter>
+    <Navbar />
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/work-entry" element={<WorkEntry />} />
+        <Route path="/salary" element={<SalaryReport />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
