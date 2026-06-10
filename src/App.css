@@ -157,23 +157,39 @@ label {
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 15px;
+    padding: 15px 10px;
+  }
+
+  .navbar h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
   }
 
   .nav-links {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: 100%;
-    gap: 10px;
+    gap: 8px;
   }
 
   .nav-links a {
-    width: 200px;
+    flex: 1;
+    min-width: 100px;
+    padding: 8px 10px;
+    font-size: 14px;
     text-align: center;
   }
 
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
   .salary-card {
-    width: 90%;
+    width: 100%;
     padding: 20px;
+    box-sizing: border-box;
   }
 
   .container {
@@ -181,6 +197,7 @@ label {
   }
 
   h1 {
-    font-size: 40px;
+    font-size: 32px;
+    margin-top: 10px;
   }
 }

@@ -7,15 +7,18 @@ function WorkEntry() {
 
   const [employeeId, setEmployeeId] = useState("");
   const [diamondId, setDiamondId] = useState("");
+  const [workType, setWorkType] = useState("");
   const [quantity, setQuantity] = useState("");
   const [ratePerPiece, setRatePerPiece] = useState("");
 
   useEffect(() => {
-    api.get("/employees")
+    api
+      .get("/employees")
       .then((res) => setEmployees(res.data))
       .catch((err) => console.log(err));
 
-    api.get("/diamonds")
+    api
+      .get("/diamonds")
       .then((res) => setDiamonds(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -27,6 +30,7 @@ function WorkEntry() {
       await api.post("/work-entries", {
         employeeId,
         diamondId,
+        workType,
         quantity: Number(quantity),
         ratePerPiece: Number(ratePerPiece),
         date: new Date(),
@@ -36,6 +40,7 @@ function WorkEntry() {
 
       setEmployeeId("");
       setDiamondId("");
+      setWorkType("");
       setQuantity("");
       setRatePerPiece("");
     } catch (error) {
@@ -47,79 +52,96 @@ function WorkEntry() {
   return (
     <div className="container">
       <h1>Work Entry</h1>
-<div className="salary-card">
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Employee</label>
+      <div className="salary-card">
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Employee</label>
+            <br />
+            <select
+              value={employeeId}
+              onChange={(e) => setEmployeeId(e.target.value)}
+              required
+            >
+              <option value="">Select Employee</option>
+
+              {employees.map((emp) => (
+                <option key={emp._id} value={emp._id}>
+                  {emp.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <br />
-          <select
-            value={employeeId}
-            onChange={(e) => setEmployeeId(e.target.value)}
-            required
-          >
-            <option value="">Select Employee</option>
 
-            {employees.map((emp) => (
-              <option key={emp._id} value={emp._id}>
-                {emp.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div>
+            <label>Diamond</label>
+            <br />
+            <select
+              value={diamondId}
+              onChange={(e) => setDiamondId(e.target.value)}
+              required
+            >
+              <option value="">Select Diamond</option>
 
-        <br />
+              {diamonds.map((diamond) => (
+                <option key={diamond._id} value={diamond._id}>
+                  {diamond.diamondCode}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div>
-          <label>Diamond</label>
           <br />
-          <select
-            value={diamondId}
-            onChange={(e) => setDiamondId(e.target.value)}
-            required
-          >
-            <option value="">Select Diamond</option>
 
-            {diamonds.map((diamond) => (
-              <option key={diamond._id} value={diamond._id}>
-                {diamond.diamondCode}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div>
+            <label>Work Type</label>
+            <br />
+            <select
+              value={workType}
+              onChange={(e) => setWorkType(e.target.value)}
+              required
+            >
+              <option value="">Select Work Type</option>
+              <option value="Cutting">Cutting</option>
+              <option value="Polishing">Polishing</option>
+              <option value="Grading">Grading</option>
+            </select>
+          </div>
 
-        <br />
-
-        <div>
-          <label>Quantity</label>
           <br />
-          <input
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-            required
-          />
-        </div>
 
-        <br />
+          <div>
+            <label>Quantity</label>
+            <br />
+            <input
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              required
+            />
+          </div>
 
-        <div>
-          <label>Rate Per Piece</label>
           <br />
-          <input
-            type="number"
-            value={ratePerPiece}
-            onChange={(e) => setRatePerPiece(e.target.value)}
-            required
-          />
-        </div>
 
-        <br />
+          <div>
+            <label>Rate Per Piece</label>
+            <br />
+            <input
+              type="number"
+              value={ratePerPiece}
+              onChange={(e) => setRatePerPiece(e.target.value)}
+              required
+            />
+          </div>
 
-        <button type="submit">
-          Save Work Entry
-        </button>
-      </form>
+          <br />
+
+          <button type="submit">
+            Save Work Entry
+          </button>
+        </form>
       </div>
     </div>
   );

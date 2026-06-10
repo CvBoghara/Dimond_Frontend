@@ -7,7 +7,8 @@ function SalaryReport() {
   const [salaryData, setSalaryData] = useState<any>(null);
 
   useEffect(() => {
-    api.get("/employees")
+    api
+      .get("/employees")
       .then((res) => setEmployees(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -50,9 +51,17 @@ function SalaryReport() {
         <div className="salary-card">
           <h2>Salary Summary</h2>
 
-          <h3>Total Entries: {salaryData.totalEntries}</h3>
+          <h3>
+            Employee Name: {salaryData.employeeName}
+          </h3>
 
-          <h3>Total Salary: ₹{salaryData.totalSalary}</h3>
+          <h3>
+            Total Entries: {salaryData.totalEntries}
+          </h3>
+
+          <h3>
+            Total Salary: ₹{salaryData.totalSalary}
+          </h3>
         </div>
       )}
     </div>
