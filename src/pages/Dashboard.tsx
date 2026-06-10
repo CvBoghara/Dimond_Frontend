@@ -22,17 +22,6 @@ function Dashboard() {
           </div>
 
           <div className="card">
-            <h2>Employee Info</h2>
-
-            <p>
-              <strong>Name:</strong> {stats.employeeName}
-            </p>
-
-            <p>
-              <strong>Department:</strong> {stats.department}
-            </p>
-          </div>
-          <div className="card">
             <h2>{stats.totalDiamonds}</h2>
             <p>Diamonds</p>
           </div>
