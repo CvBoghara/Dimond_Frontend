@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../services/api';
-import type { Employee } from '../types';
-
-interface EmployeeSelectProps {
-  value: string;
-  onChange: (value: string) => void;
-  label?: string;
-}
+import type { Employee, EmployeeSelectProps } from '../types';
 
 const EmployeeSelect: React.FC<EmployeeSelectProps> = ({ value, onChange, label = "Employee" }) => {
   const [employees, setEmployees] = useState<Employee[]>([]);

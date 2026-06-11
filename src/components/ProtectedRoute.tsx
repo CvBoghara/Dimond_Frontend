@@ -1,9 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-}
+import type { ProtectedRouteProps } from "../types";
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
   const location = useLocation();

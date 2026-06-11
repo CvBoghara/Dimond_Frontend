@@ -1,8 +1,5 @@
 import React from 'react';
-
-interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-}
+import type { InputFieldProps, SelectFieldProps } from '../types';
 
 export const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
   return (
@@ -15,11 +12,6 @@ export const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
     </div>
   );
 };
-
-interface SelectFieldProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  label: string;
-  options: { label: string; value: string }[];
-}
 
 export const SelectField: React.FC<SelectFieldProps> = ({ label, options, ...props }) => {
   return (

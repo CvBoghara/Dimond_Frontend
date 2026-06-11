@@ -1,12 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-interface StatCardProps {
-  title: string;
-  value: string | number;
-  linkTo: string;
-  linkText: string;
-}
+import type { StatCardProps } from '../types';
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, linkTo, linkText }) => {
   return (

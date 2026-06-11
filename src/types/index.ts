@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface Employee {
   _id: string;
   name: string;
@@ -36,4 +38,36 @@ export interface DashboardStats {
   totalDiamonds: number;
   totalWorkEntries: number;
   totalSalary: number;
+}
+
+export interface EmployeeSelectProps {
+  value: string;
+  onChange: (value: string) => void;
+  label?: string;
+}
+
+export interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+}
+
+export interface SelectFieldProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  label: string;
+  options: { label: string; value: string }[];
+}
+
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
+
+export interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
+export interface StatCardProps {
+  title: string;
+  value: string | number;
+  linkTo: string;
+  linkText: string;
 }
